@@ -1,0 +1,5 @@
+# Stakeholder: Doctor
+Subject: E-prescriptions
+Dr. Rao: We would like e-prescriptions with our registration number and digital signature to be accepted by the pharmacy.
+Doctor: The pharmacy should flag Schedule X drugs on tele-consultation prescriptions for review.
+Doctor: Patient details should be available only to authorised staff.

@@ -1,0 +1,8 @@
+{
+  "analyst-key":    {"name": "Asha (Business Analyst)",    "role": "analyst"},
+  "pharmacist-key": {"name": "Ravi (Pharmacist)",          "role": "pharmacist"},
+  "compliance-key": {"name": "Meera (Compliance Officer)", "role": "compliance_officer"},
+  "pm-key":         {"name": "Kiran (Project Manager)",    "role": "project_manager"},
+  "architect-key":  {"name": "Dev (Architect)",            "role": "architect"},
+  "security-key":   {"name": "Sana (Security Lead)",       "role": "security"}
+}

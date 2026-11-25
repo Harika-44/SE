@@ -1,0 +1,10 @@
+# Stakeholder: Pharmacy Owner
+Meena (Owner): Billing must be fast, customers should not wait at the counter during peak hours.
+Meena (Owner): We want to skip optional fields while billing so the cashier can finish quickly.
+Meena (Owner): The software should keep H1 records for 3 years because our consultant told us so.
+Meena (Owner): We need to see near-expiry stock every Monday.
+Meena (Owner): It would be nice to give discounts to regular customers.
+Meena (Owner): We need GST invoices with proper numbering.
+Meena (Owner): The system should work even when the internet is down.
+Meena (Owner): We currently use Tally for accounts and want to keep it.
+Meena (Owner): The system should allow the owner to override alerts without a reason.

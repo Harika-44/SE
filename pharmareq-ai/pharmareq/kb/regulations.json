@@ -1,0 +1,228 @@
+{
+  "_notice": "Entries are short PARAPHRASED summaries written for a student prototype. Every entry is marked verified=false: before relying on any of them, replace the summary with text from the official source, check the current version/effective date, and have a qualified pharmacist or compliance officer sign off (plan section 5).",
+  "entries": [
+    {
+      "id": "DCR-SCHED-H",
+      "title": "Drugs and Cosmetics Rules, 1945 - Schedule H drugs (sale on prescription)",
+      "source": "Drugs and Cosmetics Act, 1940 and Rules, 1945 (Rule 65 and Schedule H)",
+      "jurisdiction": "India",
+      "effective_date": "1945 (as amended)",
+      "version": "as amended - verify current",
+      "verified": false,
+      "summary": "Schedule H drugs may be sold by retail only against a valid prescription of a registered medical practitioner. The prescription should carry prescriber and patient details and the sale is recorded. The pharmacy keeps the supply record so that it can be shown at inspection.",
+      "keywords": ["schedule h", "prescription", "prescriber", "registered medical practitioner", "patient name address", "dispense record", "valid prescription", "prescription only"],
+      "controls": [
+        {"id": "H-RX-REQUIRED", "description": "Block sale of Schedule H drugs without a valid prescription", "all": ["prescription"], "any": ["valid", "verify", "validate", "block", "check", "require"], "suggested": "The system shall not allow a Schedule H drug to be dispensed unless a valid prescription is attached to the sale."},
+        {"id": "H-PRESCRIBER-PATIENT", "description": "Capture prescriber and patient details before dispensing", "all": ["prescriber", "patient"], "any": ["record", "capture", "detail"], "suggested": "The system shall require prescriber details and patient details to be recorded before a prescription drug is dispensed."}
+      ]
+    },
+    {
+      "id": "DCR-SCHED-H1",
+      "title": "Drugs and Cosmetics Rules - Schedule H1 drugs (separate register)",
+      "source": "Drugs and Cosmetics Rules, 1945 (Schedule H1, inserted 2013-14)",
+      "jurisdiction": "India",
+      "effective_date": "2014 (as amended)",
+      "version": "as amended - verify current",
+      "verified": false,
+      "summary": "Schedule H1 drugs (certain antibiotics, anti-TB and some other drugs) must be sold only on prescription and every supply is entered in a separate register. The register holds patient name and address, prescriber name, drug name, batch and quantity supplied. Records are kept for the period stated in the rules (commonly cited as three years - verify).",
+      "keywords": ["h1", "schedule h1", "register", "separate register", "antibiotic", "anti-tb", "batch", "quantity supplied", "retain", "three years", "prescriber name", "patient name"],
+      "controls": [
+        {"id": "H1-REGISTER", "description": "Maintain a separate Schedule H1 register entry for each supply", "all": ["h1"], "any": ["record", "register"], "suggested": "The system shall create a Schedule H1 register entry (patient, prescriber, drug, batch, quantity, date) for every H1 dispensing."},
+        {"id": "H1-RETENTION", "description": "Retain H1 records for the legally required period", "all": ["h1"], "any": ["retain", "year"], "suggested": "The system shall retain Schedule H1 register entries for the legally required period (to be confirmed by the compliance officer) and prevent their deletion."}
+      ]
+    },
+    {
+      "id": "DCR-SCHED-X",
+      "title": "Drugs and Cosmetics Rules - Schedule X drugs (psychotropic, stricter control)",
+      "source": "Drugs and Cosmetics Rules, 1945 (Rule 65 and Schedule X)",
+      "jurisdiction": "India",
+      "effective_date": "1945 (as amended)",
+      "version": "as amended - verify current",
+      "verified": false,
+      "summary": "Schedule X drugs need a prescription in duplicate, one copy of which the pharmacy retains, and a supply record kept for the prescribed period (commonly cited as two years - verify). Stock must be stored with additional security.",
+      "keywords": ["schedule x", "x drug", "psychotropic", "duplicate prescription", "retain copy", "two years", "narcotic", "stricter", "locked storage"],
+      "controls": [
+        {"id": "X-DUP-RX", "description": "Retain a copy of the prescription for Schedule X supply", "all": ["x"], "any": ["copy", "duplicate", "retain", "scan"], "suggested": "The system shall store a copy of the prescription for every Schedule X supply and link it to the register entry."},
+        {"id": "X-REGISTER", "description": "Record every Schedule X supply", "all": ["x"], "any": ["record", "register"], "suggested": "The system shall record every Schedule X supply in the scheduled-drug register."}
+      ]
+    },
+    {
+      "id": "NDPS-1985",
+      "title": "Narcotic Drugs and Psychotropic Substances Act, 1985 - controlled substances",
+      "source": "NDPS Act, 1985 and NDPS Rules",
+      "jurisdiction": "India",
+      "effective_date": "1985 (as amended)",
+      "version": "as amended - verify current",
+      "verified": false,
+      "summary": "Narcotic and psychotropic substances may be possessed and supplied only under the licences and records the Act and Rules require. Stock, supply and returns for these substances must be accurately recorded and available for inspection.",
+      "keywords": ["ndps", "narcotic", "psychotropic", "controlled substance", "licence", "stock record", "inspection", "reporting"],
+      "controls": [
+        {"id": "NDPS-STOCK-RECORD", "description": "Accurate stock and supply records for NDPS substances", "all": ["ndps"], "any": ["record", "stock", "register", "report"], "suggested": "The system shall keep an accurate stock and supply record for NDPS substances and support inspection reports."}
+      ]
+    },
+    {
+      "id": "DCR-LICENCE-PHARMACIST",
+      "title": "Retail sale licence conditions - supervision by a registered pharmacist, purchase and sale records",
+      "source": "Drugs and Cosmetics Rules, 1945 (licence conditions for retail sale); Pharmacy Act, 1948",
+      "jurisdiction": "India",
+      "effective_date": "1945 (as amended)",
+      "version": "as amended - verify current",
+      "verified": false,
+      "summary": "Retail sale of drugs is done under the personal supervision of a registered pharmacist. The licensee keeps purchase invoices and sale records, with batch details, and produces them to the drug inspector on request.",
+      "keywords": ["registered pharmacist", "supervision", "licence", "purchase invoice", "sale record", "batch number", "inspector", "inspection", "cash memo"],
+      "controls": [
+        {"id": "LIC-PHARMACIST-AUTH", "description": "Only authorised pharmacists can complete dispensing", "all": ["pharmacist"], "any": ["authori", "login", "role", "verify", "approve", "supervis", "confirm", "registered"], "suggested": "The system shall only allow a registered pharmacist to confirm dispensing of prescription drugs."},
+        {"id": "LIC-INSPECTION-REPORT", "description": "Produce purchase/sale records for the inspector", "all": [], "any": ["inspect", "on demand", "produce", "export"], "suggested": "The system shall produce purchase, sale and scheduled-drug records on demand for a drug inspector."}
+      ]
+    },
+    {
+      "id": "DCR-EXPIRY-RECALL",
+      "title": "Expired, substandard and recalled drugs - no sale, segregation, recall handling",
+      "source": "Drugs and Cosmetics Act, 1940; recall guidance issued by the drug regulator",
+      "jurisdiction": "India",
+      "effective_date": "as amended",
+      "version": "verify current",
+      "verified": false,
+      "summary": "Drugs past their expiry date, or batches declared substandard or recalled, must not be sold. Such stock is segregated and handled as the recall or disposal process requires, and the action is recorded.",
+      "keywords": ["expiry", "expired", "near expiry", "recall", "batch", "quarantine", "segregate", "substandard", "fefo", "first expiry first out", "return to supplier"],
+      "controls": [
+        {"id": "EXP-BLOCK-SALE", "description": "Block sale of expired or recalled batches", "all": ["expir"], "any": ["block", "prevent", "not allow", "stop", "cannot", "never", "apart"], "suggested": "The system shall block the sale of expired or recalled batches."},
+        {"id": "EXP-FEFO", "description": "Pick stock from the earliest valid expiry first", "all": ["expir"], "any": ["first", "fefo", "earliest"], "suggested": "The system shall dispense from the batch with the earliest valid expiry unless a pharmacist overrides with a recorded reason."},
+        {"id": "RECALL-QUARANTINE", "description": "Quarantine recalled batches and record the action", "all": ["recall"], "any": ["quarantine", "block", "record", "batch"], "suggested": "The system shall allow a batch to be marked recalled, quarantine its stock and record the action."}
+      ]
+    },
+    {
+      "id": "PCI-PPR-2015",
+      "title": "Pharmacy Practice Regulations, 2015 - pharmacist duties in dispensing",
+      "source": "Pharmacy Council of India, Pharmacy Practice Regulations, 2015",
+      "jurisdiction": "India",
+      "effective_date": "2015",
+      "version": "2015 - verify current",
+      "verified": false,
+      "summary": "The pharmacist checks the prescription for completeness and validity, dispenses the correct drug, strength and quantity, labels and counsels the patient where appropriate, and maintains the required records. Substitution decisions are the pharmacist's professional responsibility.",
+      "keywords": ["pharmacist", "dispensing", "verify prescription", "label", "counselling", "substitution", "generic", "brand", "professional responsibility", "check strength quantity"],
+      "controls": [
+        {"id": "PPR-VERIFY-STEP", "description": "Pharmacist verification step before handing over the drug", "all": ["pharmacist"], "any": ["verify", "check", "confirm", "review"], "suggested": "The system shall require an explicit pharmacist verification step (drug, strength, quantity, batch) before a dispensing is completed."},
+        {"id": "PPR-SUBSTITUTION-RECORD", "description": "Record every substitution with reason", "all": ["substitut"], "any": ["record", "reason", "log", "consent"], "suggested": "The system shall record every drug substitution with the original drug, the substitute, the reason and the approving pharmacist."}
+      ]
+    },
+    {
+      "id": "TELEMED-2020",
+      "title": "Telemedicine Practice Guidelines, 2020 - e-prescriptions",
+      "source": "Board of Governors / National Medical Commission, Telemedicine Practice Guidelines, 2020",
+      "jurisdiction": "India",
+      "effective_date": "2020-03-25",
+      "version": "2020 - verify current",
+      "verified": false,
+      "summary": "A prescription issued after a tele-consultation can be accepted if it carries the practitioner's details and is shared in a valid form. The guidelines restrict which drug categories may be prescribed by tele-consultation; drugs in the Schedule X category are in the prohibited list.",
+      "keywords": ["e-prescription", "electronic prescription", "telemedicine", "tele-consultation", "digital signature", "registration number", "prohibited list", "schedule x"],
+      "controls": [
+        {"id": "TELE-ERX-VALIDATE", "description": "Validate e-prescription content (practitioner registration, date, signature)", "all": ["prescription"], "any": ["electronic", "e-prescription", "digital", "signature", "registration"], "suggested": "The system shall validate that an e-prescription carries the practitioner's registration number, date and a valid signature before accepting it."},
+        {"id": "TELE-X-BLOCK", "description": "Reject Schedule X drugs on tele-consultation prescriptions", "all": ["x"], "any": ["telemedicine", "tele", "electronic", "e-prescription"], "suggested": "The system shall flag Schedule X drugs on an e-prescription issued after tele-consultation for pharmacist review."}
+      ]
+    },
+    {
+      "id": "DPDP-2023",
+      "title": "Digital Personal Data Protection Act, 2023 - patient and prescription data",
+      "source": "Digital Personal Data Protection Act, 2023 and rules made under it",
+      "jurisdiction": "India",
+      "effective_date": "2023 (rules phased in - verify commencement)",
+      "version": "2023 - verify current",
+      "verified": false,
+      "summary": "Personal data is processed with notice and consent (or another lawful ground), only for the stated purpose, kept no longer than needed, protected with reasonable security safeguards, and personal-data breaches are reported as the Act and rules require.",
+      "keywords": ["personal data", "patient data", "consent", "privacy", "data protection", "purpose", "breach", "retention", "mask", "anonymise", "contact details"],
+      "controls": [
+        {"id": "DPDP-CONSENT-PURPOSE", "description": "Collect only needed patient data, for a stated purpose", "all": ["patient"], "any": ["consent", "purpose", "minimum", "collect"], "suggested": "The system shall collect only the patient data needed for dispensing and record the purpose and consent status."},
+        {"id": "DPDP-SAFEGUARDS", "description": "Protect personal data (access control, encryption, masking)", "all": ["data"], "any": ["encrypt", "mask", "access", "protect", "secure", "confidential"], "suggested": "The system shall protect patient and prescription data with role-based access, encryption in transit and at rest, and masking in non-clinical views."},
+        {"id": "DPDP-BREACH", "description": "Detect and report personal-data breaches", "all": ["breach"], "any": ["detect", "report", "notify", "alert"], "suggested": "The system shall log access to patient data and support breach investigation and notification."}
+      ]
+    },
+    {
+      "id": "GST-INVOICE",
+      "title": "GST invoicing and record keeping for pharmacy sales",
+      "source": "Central Goods and Services Tax Act, 2017 and Rules (invoice contents, record retention)",
+      "jurisdiction": "India",
+      "effective_date": "2017-07-01",
+      "version": "as amended - verify current",
+      "verified": false,
+      "summary": "A tax invoice must carry the prescribed particulars (supplier GSTIN, invoice number in a unique sequence, date, HSN, taxable value, tax rate and amount). Accounts and records are retained for the period the Act specifies (commonly cited as 72 months - verify).",
+      "keywords": ["gst", "gstin", "hsn", "tax invoice", "invoice number", "sequence", "tax rate", "bill", "discount", "credit note", "retain accounts"],
+      "controls": [
+        {"id": "GST-INVOICE-FIELDS", "description": "Invoices carry the prescribed GST particulars and unique numbering", "all": ["gst"], "any": ["invoice", "bill", "hsn", "number", "rate"], "suggested": "The system shall generate GST-compliant invoices with unique sequential numbers, GSTIN, HSN code, tax rate and tax amount."}
+      ]
+    },
+    {
+      "id": "WHO-DATA-INTEGRITY",
+      "title": "Good data and record management practices (ALCOA+ data integrity)",
+      "source": "WHO Technical Report Series 996, Annex 5 (good data and record management practices)",
+      "jurisdiction": "International guidance",
+      "effective_date": "2016",
+      "version": "TRS 996 - verify current",
+      "verified": false,
+      "summary": "Records should be attributable, legible, contemporaneous, original and accurate (ALCOA), and also complete, consistent, enduring and available. Entries are not silently overwritten or deleted; corrections are traceable with who, when and why.",
+      "keywords": ["audit trail", "tamper", "delete", "edit", "correction", "who when why", "timestamp", "immutable", "data integrity", "alcoa", "attributable", "traceable"],
+      "controls": [
+        {"id": "DI-AUDIT-TRAIL", "description": "Audit trail with user, time and reason for every record change", "all": ["audit"], "any": ["trail", "log", "record", "user", "timestamp"], "suggested": "The system shall keep an audit trail (user, timestamp, old value, new value, reason) for every change to dispensing, stock and register records."},
+        {"id": "DI-NO-DELETE", "description": "Prevent deletion or silent overwrite of regulated records", "all": ["delet"], "any": ["prevent", "not", "block", "cannot", "never"], "suggested": "The system shall prevent deletion of regulated records; corrections shall be added as new entries that reference the original."}
+      ]
+    },
+    {
+      "id": "ISO-27001-AC",
+      "title": "Information security controls - access control, logging, secure operation",
+      "source": "ISO/IEC 27001:2022 Annex A (access control, logging, cryptography) and OWASP ASVS",
+      "jurisdiction": "International standard",
+      "effective_date": "2022",
+      "version": "2022 - verify current",
+      "verified": false,
+      "summary": "Access is granted by role on a least-privilege basis, strong authentication is used for privileged access, sensitive data is encrypted, security-relevant events are logged and monitored, and software is tested for vulnerabilities.",
+      "keywords": ["role", "access control", "authentication", "login", "password", "mfa", "multi-factor", "encrypt", "security", "least privilege", "session", "vulnerability", "backup"],
+      "controls": [
+        {"id": "SEC-RBAC", "description": "Role-based access with least privilege", "all": ["role"], "any": ["access", "permission", "privilege", "login"], "suggested": "The system shall enforce role-based access control with least privilege for pharmacist, assistant, owner and auditor roles."},
+        {"id": "SEC-AUTH", "description": "Authenticated sessions; stronger authentication for privileged actions", "all": ["login"], "any": ["authenticat", "password", "mfa", "otp", "session"], "suggested": "The system shall authenticate every user and require stronger authentication (for example OTP) for privileged actions such as overrides."}
+      ]
+    },
+    {
+      "id": "GAMP5-CSV",
+      "title": "Computerised system validation - risk-based, lifecycle approach",
+      "source": "ISPE GAMP 5 (Second Edition) - risk-based approach to compliant GxP computerised systems",
+      "jurisdiction": "International guidance",
+      "effective_date": "2022",
+      "version": "2nd edition - verify current",
+      "verified": false,
+      "summary": "Software that supports regulated activity is developed and validated on a documented lifecycle: user requirements, specification, risk assessment, verification, validation with objective evidence, controlled change and traceability between requirements and tests.",
+      "keywords": ["validation", "verify", "test", "traceability", "evidence", "risk assessment", "change control", "uat", "user acceptance", "validated system", "lifecycle", "v-model"],
+      "controls": [
+        {"id": "CSV-TRACEABILITY", "description": "Requirements traceable to tests and evidence", "all": ["trace"], "any": ["test", "requirement", "evidence", "matrix"], "suggested": "Each approved requirement shall be traceable to at least one test case and its validation evidence."}
+      ]
+    },
+    {
+      "id": "ORG-SOP-DISPENSING",
+      "title": "Organisation SOP (synthetic example) - dispensing checklist",
+      "source": "Organisation SOP DSP-001 (synthetic sample for the prototype)",
+      "jurisdiction": "Organisation",
+      "effective_date": "2026-01-01",
+      "version": "1.0",
+      "verified": false,
+      "summary": "Before handover the pharmacist confirms patient name, drug, strength, dosage form, quantity, batch and expiry against the prescription and the label. Partial supply is recorded with the balance quantity. Illegible or incomplete prescriptions are referred back to the prescriber.",
+      "keywords": ["checklist", "handover", "label", "partial", "balance", "illegible", "incomplete prescription", "refer", "strength", "dosage form", "quantity", "batch", "expiry"],
+      "controls": [
+        {"id": "SOP-PARTIAL", "description": "Record partial supply and balance quantity", "all": ["partial"], "any": ["record", "balance", "dispens", "supply"], "suggested": "The system shall record partial dispensing with the balance quantity still owed."}
+      ]
+    },
+    {
+      "id": "ORG-POL-STOCK",
+      "title": "Organisation policy (synthetic example) - stock, batch and supplier returns",
+      "source": "Organisation policy INV-002 (synthetic sample for the prototype)",
+      "jurisdiction": "Organisation",
+      "effective_date": "2026-01-01",
+      "version": "1.0",
+      "verified": false,
+      "summary": "Goods received are checked against the supplier invoice and entered with batch and expiry. Near-expiry stock is flagged at an agreed threshold, and returns to suppliers are recorded with a credit note reference.",
+      "keywords": ["goods receipt", "supplier", "purchase", "return", "credit note", "near expiry", "threshold", "reorder", "stock", "batch", "invoice", "inventory"],
+      "controls": [
+        {"id": "STOCK-NEAR-EXPIRY", "description": "Near-expiry alerts with a configured threshold", "all": ["expir"], "any": ["alert", "notify", "flag", "threshold", "day"], "suggested": "The system shall flag batches whose expiry is within a configurable number of days (default to be confirmed with the owner)."},
+        {"id": "STOCK-GRN", "description": "Goods receipt records batch and expiry", "all": ["batch"], "any": ["receipt", "receive", "purchase", "invoice", "supplier"], "suggested": "The system shall record batch number, expiry date and quantity for every goods receipt against the supplier invoice."}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+# Stakeholder: Pharmacist
+Ravi (Pharmacist): Thanks for meeting. Our shop is a retail pharmacy with three counters. Currently we write the H1 register by hand in a notebook.
+Ravi (Pharmacist): We need to record the prescriber name, patient name and batch number before dispensing any Schedule H1 drug.
+Ravi (Pharmacist): The system should keep the H1 register for 2 years.
+Ravi (Pharmacist): Expired batches must never be sold, and the software should pick the batch with the earliest expiry first.
+Ravi (Pharmacist): We want an alert about expiry soon so that nothing gets wasted.
+Ravi (Pharmacist): Substitution of a brand with a generic is done by the pharmacist, and the reason should be recorded.
+Ravi (Pharmacist): If the prescription is illegible we must call Dr. Mehta on 9876543210 to confirm before dispensing.
+Ravi (Pharmacist): The system should recommend the correct dose when the prescription is unclear.
+Ravi (Pharmacist): Only a registered pharmacist should be able to confirm dispensing of prescription drugs.
+Ravi (Pharmacist): The software needs to be user-friendly because our assistants have little training.

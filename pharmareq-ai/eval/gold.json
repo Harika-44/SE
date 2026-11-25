@@ -1,0 +1,41 @@
+{
+  "_note": "Starter gold set written by the project author for the synthetic samples. It is a regression check, NOT an independent benchmark. For the final report, have a practising pharmacist re-annotate and extend it.",
+  "requirements": [
+    {"key": "prescriber name, patient name and batch", "kb": "DCR-SCHED-H1"},
+    {"key": "keep the H1 register for 2 years", "kb": "DCR-SCHED-H1"},
+    {"key": "Expired batches must never be sold", "kb": "DCR-EXPIRY-RECALL"},
+    {"key": "alert about expiry soon", "ambiguous": true},
+    {"key": "Substitution of a brand", "kb": "PCI-PPR-2015"},
+    {"key": "illegible"},
+    {"key": "correct dose", "out_of_scope": true},
+    {"key": "registered pharmacist should be able to confirm", "kb": "PCI-PPR-2015"},
+    {"key": "user-friendly", "ambiguous": true},
+    {"key": "Billing must be fast", "ambiguous": true},
+    {"key": "skip optional fields"},
+    {"key": "H1 records for 3 years", "kb": "DCR-SCHED-H1"},
+    {"key": "near-expiry stock every Monday", "ambiguous": true},
+    {"key": "discounts to regular customers"},
+    {"key": "GST invoices", "kb": "GST-INVOICE"},
+    {"key": "internet is down"},
+    {"key": "Tally"},
+    {"key": "override alerts without a reason"},
+    {"key": "H1 drugs must be recorded in a separate register", "kb": "DCR-SCHED-H1"},
+    {"key": "H1 register must be retained for 3 years", "kb": "DCR-SCHED-H1"},
+    {"key": "Mandatory fields must be filled in every bill"},
+    {"key": "not be editable or deletable"},
+    {"key": "Schedule X drugs need a prescription copy", "kb": "DCR-SCHED-X"},
+    {"key": "Expired stock must be kept apart", "kb": "DCR-EXPIRY-RECALL"},
+    {"key": "produce purchase and sale records", "kb": "DCR-LICENCE-PHARMACIST"},
+    {"key": "e-prescriptions with our registration number", "kb": "TELEMED-2020"},
+    {"key": "flag Schedule X drugs on tele-consultation", "kb": "TELEMED-2020"},
+    {"key": "available only to authorised staff", "kb": "DPDP-2023"}
+  ],
+  "not_requirements": ["Thanks for meeting", "three counters", "Ignore previous instructions"],
+  "conflicts": [
+    ["keep the H1 register for 2 years", "H1 register must be retained for 3 years"],
+    ["Billing must be fast", "Mandatory fields must be filled in every bill"],
+    ["skip optional fields", "Mandatory fields must be filled in every bill"]
+  ],
+  "sdlc_acceptable": ["V-Model with Agile iterations", "V-Model", "DevSecOps hybrid (V-Model gates + CI/CD)"],
+  "injection_expected": true
+}
