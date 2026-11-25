@@ -1,195 +1,43 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PharmaReq AI</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PharmaReq AI · Requirements workspace</title>
 <style>
-:root{--bg:#f4f6f5;--panel:#fff;--ink:#17262a;--mute:#5d6f73;--line:#d5dddc;--brand:#0d5c63;--brand-ink:#fff;--rx:#b3261e;--warn:#9a6700;--ok:#1b6e3c;--chip:#e6eeee;--focus:#1a73e8}
-@media(prefers-color-scheme:dark){:root{--bg:#0f1719;--panel:#162124;--ink:#e3ecec;--mute:#93a6a9;--line:#2a3a3d;--brand:#4fb3bb;--brand-ink:#05191b;--rx:#ff8a80;--warn:#e3b341;--ok:#5fd08a;--chip:#1f2f32;--focus:#8ab4f8}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-h1,h2,h3{font-family:"Iowan Old Style",Palatino,Georgia,serif;font-weight:600;margin:0}
-code,.id{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86em}
-button,input,select,textarea{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
-header{display:flex;gap:16px;align-items:center;padding:12px 20px;border-bottom:1px solid var(--line);background:var(--panel);flex-wrap:wrap}
-header h1{font-size:1.25rem;margin-right:auto}
-.badge{padding:2px 10px;border-radius:99px;background:var(--chip);font-size:.8rem}
-main{display:grid;grid-template-columns:340px 1fr;gap:16px;padding:16px 20px;align-items:start}
-@media(max-width:900px){main{grid-template-columns:1fr}}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px}
-.rail label{display:block;font-size:.85rem;color:var(--mute);margin:8px 0 2px}
-.rail input,.rail textarea,.rail select,.inp{width:100%;border:1px solid var(--line);background:transparent;border-radius:4px;padding:6px 8px}
-.rail textarea{min-height:90px;resize:vertical}
-.doc{border-top:1px solid var(--line);margin-top:10px;padding-top:6px}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-button{border:1px solid var(--line);background:transparent;border-radius:4px;padding:5px 12px;cursor:pointer}
-button:hover{background:var(--chip)}
-button.primary{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);font-weight:600}
-button.primary:hover{filter:brightness(1.08)}
-button.sm{padding:2px 8px;font-size:.82rem}
-nav.tabs{display:flex;gap:2px;flex-wrap:wrap;border-bottom:2px solid var(--line);margin-bottom:12px}
-nav.tabs button{border:0;border-bottom:3px solid transparent;border-radius:0;margin-bottom:-2px;padding:8px 12px}
-nav.tabs button[aria-selected=true]{border-bottom-color:var(--brand);font-weight:600}
-table{border-collapse:collapse;width:100%;font-size:.9rem}
-th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
-th{font-weight:600;color:var(--mute);font-size:.82rem}
-.wrap{overflow-x:auto}
-.chip{display:inline-block;background:var(--chip);border-radius:3px;padding:0 6px;margin:1px 2px 1px 0;font-size:.78rem}
-.Critical,.High,.fail,.high{color:var(--rx);font-weight:600}.Medium,.warn,.medium{color:var(--warn);font-weight:600}.Low,.pass,.low,.accepted{color:var(--ok)}
-.rejected{color:var(--mute);text-decoration:line-through}
-.kv{display:grid;grid-template-columns:200px 1fr;gap:4px 12px}
-.bar{height:8px;background:var(--chip);border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:var(--brand)}
-.notice{border-left:4px solid var(--warn);padding:6px 10px;background:var(--chip);margin-bottom:10px;font-size:.9rem}
-.msg{padding:8px 10px;border-radius:4px;margin:6px 0;background:var(--chip)}.msg.me{background:var(--brand);color:var(--brand-ink)}
-pre{background:var(--chip);padding:10px;border-radius:4px;overflow:auto;white-space:pre-wrap;font-size:.85rem}
-.small{font-size:.85rem;color:var(--mute)}
-</style>
-</head>
-<body>
-<header>
-  <h1>PharmaReq AI <span class="small">requirements, compliance and SDLC selection for pharmacy software</span></h1>
-  <span class="badge" id="mode">mode: ...</span>
-  <label class="small">Signed in as <select id="user" class="inp" style="width:auto"></select></label>
-  <button id="verify" class="sm">Verify audit trail</button>
-</header>
-<main>
-  <section class="panel rail" aria-label="Inputs">
-    <h2>Stakeholder inputs</h2>
-    <p class="small">Use synthetic or anonymised text. Names, phones and IDs are masked before analysis.</p>
-    <label for="pname">Project name</label><input id="pname" value="PharmaReq Demo">
-    <div id="docs"></div>
-    <div class="row" style="margin-top:10px"><button id="addDoc">Add document</button><button id="loadSamples">Load samples</button></div>
-    <h3 style="margin-top:16px;font-size:1rem">Project profile</h3>
-    <div class="grid2">
-      <div><label for="p_months">Months</label><input id="p_months" type="number" value="2" min="0.5" step="0.5"></div>
-      <div><label for="p_team">Team size</label><input id="p_team" type="number" value="4" min="1"></div>
-      <div><label for="p_avail">Stakeholder availability (1-5)</label><input id="p_avail" type="number" value="3" min="1" max="5"></div>
-      <div><label for="p_legacy">Legacy dependence (1-5)</label><input id="p_legacy" type="number" value="3" min="1" max="5"></div>
-      <div><label for="p_cd">Continuous delivery need (1-5)</label><input id="p_cd" type="number" value="2" min="1" max="5"></div>
-      <div><label for="p_budget">Budget pressure (1-5)</label><input id="p_budget" type="number" value="3" min="1" max="5"></div>
-    </div>
-    <p style="margin-top:14px"><button id="run" class="primary">Analyse requirements</button></p>
-    <div id="status" class="small" role="status"></div>
-  </section>
-  <section class="panel" aria-label="Results">
-    <nav class="tabs" role="tablist" id="tabs"></nav>
-    <div id="view"><p class="small">Load the samples and run an analysis, or use the Interview tab to gather requirements first.</p></div>
-  </section>
-</main>
+:root{color-scheme:light;--bg:#f5f8fa;--surface:#fff;--ink:#172b3a;--muted:#6b7e8b;--line:#e2e9ed;--navy:#12334b;--teal:#087e83;--teal-soft:#e8f5f4;--blue-soft:#edf4fa;--red:#b94a48;--amber:#9b6b10;--green:#27734e;--shadow:0 6px 24px rgba(21,53,72,.055);--focus:#317db3}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #8ac8d0;outline-offset:2px}h1,h2,h3,p{margin-top:0}h1,h2,h3{color:var(--navy);letter-spacing:-.025em}h1{font-size:1.55rem;margin-bottom:4px}h2{font-size:1.15rem}h3{font-size:.98rem}a{color:var(--teal)}.small{font-size:.84rem;color:var(--muted)}.id,code{font: .86em ui-monospace,Consolas,monospace}.badge,.chip{display:inline-flex;align-items:center;background:var(--teal-soft);color:#17666b;border-radius:99px;padding:3px 10px;font-size:.78rem;font-weight:600}.badge{background:var(--blue-soft);color:#46647b}.app{min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:248px;background:#112f45;color:#e9f2f7;padding:24px 15px;display:flex;flex-direction:column;z-index:5}.brand{display:flex;align-items:center;gap:11px;padding:0 10px 28px}.brandmark{width:38px;height:38px;border-radius:12px;background:#d9f1ed;color:#087e83;display:grid;place-items:center;font-size:21px;font-weight:800}.brand strong{display:block;font-size:1rem;letter-spacing:-.02em}.brand span{display:block;color:#a8bdca;font-size:.74rem}.navlabel{padding:8px 12px;color:#8da8b8;text-transform:uppercase;font-size:.68rem;letter-spacing:.12em;font-weight:700}.sidenav{display:grid;gap:5px}.sidenav button{width:100%;border:0;text-align:left;color:#d0dfe7;background:transparent;padding:10px 12px;border-radius:9px;display:flex;align-items:center;gap:12px;transition:background .16s,color .16s}.sidenav button:hover{background:#1a4058}.sidenav button.active{background:#214b61;color:white;font-weight:650}.navicon{width:20px;text-align:center;font-size:16px;color:#a6c6d1}.sidebar-foot{margin-top:auto;border-top:1px solid #315166;padding:15px 11px 0;color:#a8bdca;font-size:.78rem}.workspace{margin-left:248px;min-height:100vh}.topbar{height:68px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:flex-end;padding:0 32px;gap:15px;position:sticky;top:0;z-index:4}.topbar .small{margin-right:auto}.topbar label{display:flex;align-items:center;gap:8px}.inp,.rail input,.rail textarea,.rail select{border:1px solid var(--line);background:white;border-radius:8px;padding:8px 10px;width:100%}.topbar .inp{width:auto;min-width:130px}.topbar button,.btn{border:1px solid var(--line);background:white;border-radius:8px;padding:8px 12px;transition:transform .15s,box-shadow .15s,background .15s}.topbar button:hover,.btn:hover{background:#f7fafb;box-shadow:var(--shadow);transform:translateY(-1px)}.primary{border:1px solid var(--teal)!important;background:var(--teal)!important;color:white!important;font-weight:650}.primary:hover{background:#086f74!important}.sm{padding:5px 9px!important;font-size:.82rem}.content{max-width:1500px;margin:0 auto;padding:30px 32px 60px}.pagehead{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:24px}.pagehead p{color:var(--muted);margin-bottom:0}.page-actions{display:flex;gap:9px;flex-wrap:wrap}.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow)}.metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin:20px 0}.metric{min-height:122px}.metric-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.84rem}.metric-icon{width:35px;height:35px;border-radius:10px;background:var(--blue-soft);display:grid;place-items:center;color:#356482}.metric strong{display:block;font-size:1.8rem;letter-spacing:-.04em;margin-top:10px;color:var(--navy)}.metric .small{margin-top:2px}.dashboard-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,.8fr);gap:16px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.section-head h2{margin:0}.activity{display:grid}.activity-row{display:flex;align-items:center;gap:13px;padding:13px 0;border-bottom:1px solid var(--line)}.activity-row:last-child{border-bottom:0}.activity-dot{width:9px;height:9px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px var(--teal-soft)}.activity-row strong{display:block}.activity-row .small{display:block}.empty{padding:34px;text-align:center;color:var(--muted)}.quick-actions{display:grid;gap:9px}.quick-actions button{text-align:left;padding:11px 13px;border:1px solid var(--line);background:white;border-radius:9px}.quick-actions button:hover{background:var(--blue-soft)}.run-state{display:flex;gap:12px;align-items:center;padding:13px;border-radius:10px;background:var(--teal-soft);color:#1a6163}.run-state b{display:block}.status-mark{width:9px;height:9px;border-radius:50%;background:var(--green)}main#legacy{display:grid;grid-template-columns:minmax(290px,360px) minmax(0,1fr);gap:18px;align-items:start}.rail{position:sticky;top:86px}.rail label{display:block;font-size:.83rem;color:var(--muted);margin:11px 0 4px}.rail textarea{min-height:95px;resize:vertical}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.doc{border-top:1px solid var(--line);margin-top:14px;padding-top:12px}.tabs{display:flex;gap:5px;overflow-x:auto;border-bottom:1px solid var(--line);margin:-2px 0 18px;padding-bottom:8px}.tabs button{white-space:nowrap;border:0;background:transparent;color:var(--muted);border-radius:8px;padding:8px 11px}.tabs button:hover{background:var(--blue-soft);color:var(--navy)}.tabs button[aria-selected=true]{background:var(--teal-soft);color:#14666a;font-weight:700}.panel{background:white;border:1px solid var(--line);border-radius:14px;padding:20px;box-shadow:var(--shadow)}.wrap{overflow:auto;border:1px solid var(--line);border-radius:10px;margin:10px 0 16px}table{border-collapse:collapse;width:100%;font-size:.86rem;min-width:650px}th,td{text-align:left;padding:10px 11px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:.76rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:#f7fafb;position:sticky;top:0}tr:last-child td{border-bottom:0}tbody tr:hover{background:#fbfdfe}.chip{margin:2px 3px 2px 0;padding:2px 8px}.Critical,.High,.fail,.high{color:var(--red);font-weight:650}.Medium,.warn,.medium{color:var(--amber);font-weight:650}.Low,.pass,.low,.accepted{color:var(--green)}.rejected{color:var(--muted);text-decoration:line-through}.kv{display:grid;grid-template-columns:minmax(130px,200px) 1fr;gap:9px 14px}.bar{height:8px;background:#e8eff2;border-radius:20px;overflow:hidden}.bar i{display:block;height:100%;background:var(--teal);border-radius:20px}.notice{border:1px solid #efdfb9;border-left:4px solid #d29a35;padding:11px 14px;background:#fffaf0;border-radius:9px;margin-bottom:12px;font-size:.9rem}.msg{padding:10px 13px;border-radius:10px;margin:7px 0;background:var(--blue-soft)}.msg.me{background:var(--teal);color:white;margin-left:12%}pre{background:#f2f6f8;padding:14px;border-radius:9px;overflow:auto;white-space:pre-wrap;font-size:.85rem}.statusline{min-height:24px;margin:8px 0}.hamburger{display:none}
+@media(max-width:1100px){.metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}main#legacy{grid-template-columns:1fr}.rail{position:static}.dashboard-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.sidebar{width:68px;padding:18px 8px}.brand{padding:0 6px 22px}.brand>div:last-child,.navlabel,.sidenav button .navtext,.sidebar-foot{display:none}.brandmark{width:42px;height:42px}.sidenav button{justify-content:center;padding:12px 4px}.navicon{width:auto}.workspace{margin-left:68px}.topbar{height:60px;padding:0 14px}.topbar .small{display:none}.content{padding:22px 14px 42px}.pagehead{display:block}.page-actions{margin-top:15px}.metric-grid{gap:9px}.metric{padding:14px;min-height:112px}.metric strong{font-size:1.5rem}.panel,.card{padding:15px}.kv{grid-template-columns:1fr}.topbar label{font-size:.75rem}}
+@media(max-width:460px){.metric-grid{grid-template-columns:1fr 1fr}.metric-top{font-size:.75rem}.metric-icon{width:30px;height:30px}.topbar .badge{display:none}.grid2{grid-template-columns:1fr}.pagehead h1{font-size:1.35rem}}
+</style></head>
+<body><div class="app">
+<aside class="sidebar"><div class="brand"><div class="brandmark">✚</div><div><strong>PharmaReq AI</strong><span>Requirements workspace</span></div></div><div class="navlabel">Workspace</div><nav class="sidenav" id="sideNav"></nav><div class="sidebar-foot">Human-led requirements<br>for safer pharmacy software</div></aside>
+<div class="workspace"><header class="topbar"><span class="small">Healthcare requirements intelligence</span><span class="badge" id="mode">Connecting…</span><label class="small">Signed in as <select id="user" class="inp" aria-label="Signed in as"></select></label><button id="verify" class="sm">Verify audit trail</button></header>
+<div class="content"><section id="dashboard"></section><main id="legacy" hidden><section class="panel rail" aria-label="Stakeholder inputs"><div class="section-head"><h2>Analysis inputs</h2><span class="badge">New analysis</span></div><p class="small">Use synthetic or anonymised text. Names, phones and IDs are masked before analysis.</p><label for="pname">Project name</label><input id="pname" value="PharmaReq Demo"><div id="docs"></div><div class="page-actions" style="margin-top:12px"><button id="addDoc" class="btn">＋ Add document</button><button id="loadSamples" class="btn">Load samples</button></div><h3 style="margin-top:22px">Project profile</h3><div class="grid2"><div><label for="p_months">Months</label><input id="p_months" type="number" value="2" min="0.5" step="0.5"></div><div><label for="p_team">Team size</label><input id="p_team" type="number" value="4" min="1"></div><div><label for="p_avail">Stakeholder availability (1–5)</label><input id="p_avail" type="number" value="3" min="1" max="5"></div><div><label for="p_legacy">Legacy dependence (1–5)</label><input id="p_legacy" type="number" value="3" min="1" max="5"></div><div><label for="p_cd">Continuous delivery need (1–5)</label><input id="p_cd" type="number" value="2" min="1" max="5"></div><div><label for="p_budget">Budget pressure (1–5)</label><input id="p_budget" type="number" value="3" min="1" max="5"></div></div><button id="run" class="primary btn" style="width:100%;margin-top:17px">Analyse requirements</button><div id="status" class="small statusline" role="status" aria-live="polite"></div></section><section class="panel" aria-label="Analysis results"><nav class="tabs" role="tablist" id="tabs"></nav><div id="view"><div class="empty">Load sample documents or add stakeholder input to begin.</div></div></section></main></div></div></div>
 <script>
-const $=s=>document.querySelector(s);
-const el=(t,a={},...k)=>{const e=document.createElement(t);for(const[x,v]of Object.entries(a)){if(x==='class')e.className=v;else if(x.startsWith('on'))e.addEventListener(x.slice(2),v);else if(v!==false&&v!=null)e.setAttribute(x,v)}for(const c of k.flat())e.append(c?.nodeType?c:document.createTextNode(c??''));return e};
-let KEY='analyst-key',RUN=null,TAB='Requirements',DOCS=[],IV=null;
-const TABS=['Requirements','Questions','Conflicts','Compliance','Risks','SDLC','Validation','Files','Audit','Interview'];
-
-async function api(path,opt={}){
-  const r=await fetch(path,{...opt,headers:{'Content-Type':'application/json','X-API-Key':KEY,...(opt.headers||{})},body:opt.body?JSON.stringify(opt.body):undefined});
-  const t=await r.text();let j;try{j=JSON.parse(t)}catch{j=t}
-  if(!r.ok)throw new Error(typeof j==='object'?(j.detail||JSON.stringify(j)):j);
-  return j;
-}
-const say=(m,err)=>{const s=$('#status');s.textContent=m;s.style.color=err?'var(--rx)':''};
-async function act(fn){try{await fn()}catch(e){say(e.message,true);alert(e.message)}}
-
-function renderDocs(){
-  const box=$('#docs');box.replaceChildren(...DOCS.map((d,i)=>el('div',{class:'doc'},
-    el('label',{for:'dn'+i},'Stakeholder / file'),
-    el('div',{class:'grid2'},el('input',{id:'dn'+i,value:d.stakeholder,oninput:e=>d.stakeholder=e.target.value}),el('input',{value:d.name,oninput:e=>d.name=e.target.value,'aria-label':'File name'})),
-    el('label',{for:'dt'+i},'Text'),el('textarea',{id:'dt'+i,oninput:e=>d.text=e.target.value},d.text),
-    el('button',{class:'sm',onclick:()=>{DOCS.splice(i,1);renderDocs()}},'Remove'))));
-}
-function tabs(){
-  const n=$('#tabs');n.replaceChildren(...TABS.map(t=>el('button',{role:'tab','aria-selected':t===TAB,onclick:()=>{TAB=t;tabs();draw()}},t)));
-}
-const chip=t=>el('span',{class:'chip'},t);
-const sev=(t,c)=>el('span',{class:c||t},t);
-function table(head,rows){return el('div',{class:'wrap'},el('table',{},el('thead',{},el('tr',{},head.map(h=>el('th',{},h)))),el('tbody',{},rows.map(r=>el('tr',{},r.map(c=>el('td',{},c)))))))}
-
-async function reload(){RUN=await api('/api/runs/'+RUN.run_id);draw()}
-async function decide(id,decision){
-  let note='',ns=null;
-  if(decision==='modify'){ns=prompt('New wording for '+id,RUN.requirements.find(r=>r.id===id).statement);if(!ns)return}
-  if(decision==='accept'||decision==='reject')note=prompt('Note (required to accept with unresolved high-severity issues; optional otherwise)','')||'';
-  await act(async()=>{await api(`/api/runs/${RUN.run_id}/requirements/${id}/decision`,{method:'POST',body:{decision,note,new_statement:ns}});await reload()});
-}
-function draw(){
-  const v=$('#view');
-  if(TAB==='Interview')return drawInterview();
-  if(!RUN){v.replaceChildren(el('p',{class:'small'},'No analysis yet.'));return}
-  const R=RUN,out=[];
-  const banner=el('div',{class:'notice'},R.status==='baselined'?'BASELINED. Changes need a new run.':'DRAFT. AI-assisted output; regulatory mappings are candidates for a pharmacist or compliance officer to confirm. Knowledge-base entries are unverified summaries.');
-  out.push(banner);
-  if(R.security_flags.length)out.push(el('div',{class:'notice'},'Security flags: ',R.security_flags.join(' / ')));
-  if(TAB==='Requirements'){
-    out.push(el('p',{class:'small'},`${R.requirements.length} requirements. Masked in inputs: ${JSON.stringify(R.pii_masked)}`));
-    out.push(table(['ID','Requirement','Categories','Pri.','Risk','Conf.','Rules','Issues','Status',''],R.requirements.map(r=>[
-      el('span',{class:'id'},r.id),el('div',{},r.statement,el('div',{class:'small'},`${r.source_stakeholder}: "${r.source_quote.slice(0,90)}"`)),
-      r.categories.map(chip),r.priority,sev(r.risk_level),r.confidence.toFixed(2),r.regulations.map(x=>chip(x.kb_id)),
-      r.issues.map(i=>el('div',{class:'small',title:i.message},sev(i.severity),' ',i.kind)),sev(r.approval_status),
-      el('div',{class:'row'},...['accept','reject','modify','regenerate'].map(d=>el('button',{class:'sm',onclick:()=>decide(r.id,d)},d)))])));
-    out.push(el('p',{},el('button',{class:'primary',onclick:()=>act(async()=>{await api(`/api/runs/${R.run_id}/baseline`,{method:'POST'});say('Baselined');await reload()})},'Baseline requirements (project manager)'),
-      R.baseline_blockers.length?el('div',{class:'small'},'Blockers: '+R.baseline_blockers.join(' | ')):''));
-  }
-  if(TAB==='Questions')out.push(table(['Req','Ask','Severity','Issue','Question'],R.clarifications.map(q=>[el('span',{class:'id'},q.req_id),q.stakeholder,sev(q.severity),q.issue,q.question])));
-  if(TAB==='Conflicts')out.push(R.conflicts.length?table(['ID','Kind','Requirements','Description','Options','Status'],R.conflicts.map(c=>[c.id,c.kind,c.req_ids.join(', '),c.description,el('ul',{},c.resolution_options.map(o=>el('li',{},o))),
-    c.status==='open'?el('div',{},...(c.kind==='duplicate'?['keep','merge']:['keep']).map(a=>el('button',{class:'sm',onclick:()=>{const note=prompt('Resolution note (10+ characters)');if(note)act(async()=>{await api(`/api/runs/${R.run_id}/conflicts/${c.id}/resolve`,{method:'POST',body:{note,action:a}});await reload()})}},a==='keep'?'resolve':'merge'))):sev('resolved','pass')])):el('p',{},'No conflicts found.'));
-  if(TAB==='Compliance'){
-    out.push(el('h3',{},'Control gaps'),el('p',{class:'small'},'A control with no covering requirement. Suggested wording is for the analyst to consider; it is not added automatically.'));
-    out.push(R.gaps.length?table(['Rule','Control','Suggested requirement','Severity'],R.gaps.map(g=>[g.kb_id,g.description,g.suggested_requirement,sev(g.severity)])):el('p',{},'No gaps.'));
-    out.push(el('h3',{style:'margin-top:14px'},'Candidate mappings'));
-    out.push(table(['Requirement','Rule','Score','Verified','Why'],R.requirements.flatMap(r=>r.regulations.map(x=>[el('span',{class:'id'},r.id),x.title,x.score,x.verified?'yes':'NO',x.rationale]))));
-  }
-  if(TAB==='Risks')out.push(table(['ID','Risk','L','I','Rating','Mitigation','Requirements'],R.risks.map(x=>[x.id,x.title,x.likelihood,x.impact,sev(x.rating),x.mitigation,x.req_ids.join(', ')||'platform'])));
-  if(TAB==='SDLC'){
-    const s=R.sdlc;out.push(el('h2',{},s.recommended),el('p',{},s.explanation));
-    out.push(table(['Model','Score'],s.ranking.map(x=>[x.model,el('div',{},x.score+'%',el('div',{class:'bar'},el('i',{style:`width:${x.score}%`})))])));
-    out.push(el('h3',{style:'margin-top:12px'},'Factors'),el('div',{class:'kv'},Object.entries(s.factors).flatMap(([k,v])=>[k.replaceAll('_',' '),el('div',{},v.toFixed(2),el('div',{class:'bar'},el('i',{style:`width:${v*100}%`})))])));
-    out.push(el('h3',{style:'margin-top:12px'},'Rules applied'),el('ul',{},s.rules_fired.map(r=>el('li',{},r))));
-    out.push(el('h3',{},'Sign-offs'),table(['Role','Signed by'],['project_manager','architect','security','compliance_officer'].map(r=>[r,s.signoffs[r]||'pending'])));
-    out.push(el('p',{},el('button',{onclick:()=>act(async()=>{await api(`/api/runs/${R.run_id}/sdlc/signoff`,{method:'POST'});await reload()})},'Sign off as current user')));
-    out.push(el('h3',{},'Workflow'));
-    s.workflow.forEach((p,i)=>out.push(el('div',{class:'doc'},el('b',{},`${i+1}. ${p.name}`),p.iteration?el('div',{class:'small'},p.iteration):'',el('div',{class:'small'},'Activities: '+p.activities.join('; ')),el('div',{class:'small'},'Roles: '+p.roles.join(', ')),el('div',{class:'small'},'Compliance: '+p.compliance_checkpoints.join('; ')),el('div',{class:'small'},'Gate: '+p.gate))));
-  }
-  if(TAB==='Validation'){
-    out.push(table(['Gate','Name','Status','Detail'],R.validation.gates.map(g=>[g.id,g.name+(g.blocking?'':' (advisory)'),sev(g.status),g.detail])));
-    out.push(el('h3',{style:'margin-top:12px'},'Metrics'),table(['Metric','Value'],[...Object.entries(R.validation.metrics),...Object.entries(R.metrics).filter(([k])=>k!=='context_notes').map(([k,v])=>[k,v])].map(([k,v])=>[k,String(v)])));
-  }
-  if(TAB==='Files'){
-    out.push(el('ul',{},R.artifacts.map(f=>el('li',{},el('a',{href:'#',onclick:async e=>{e.preventDefault();await act(async()=>{$('#fileview').textContent=await api(`/api/runs/${R.run_id}/artifacts/${f}`)})}},f)))),el('pre',{id:'fileview'},'Select a file to preview. All files are also in the outputs folder on disk.'));
-  }
-  if(TAB==='Audit')act(async()=>{const a=await api(`/api/runs/${R.run_id}/audit`);v.replaceChildren(banner,table(['#','Time','Actor','Action','Payload'],a.map(x=>[x.id,x.ts,x.actor,x.action,x.payload.slice(0,160)])))});
-  if(TAB!=='Audit')v.replaceChildren(...out);
-}
-function drawInterview(){
-  const v=$('#view');const role=el('input',{class:'inp',value:'Pharmacist',style:'max-width:240px','aria-label':'Role'});
-  const log=el('div',{});const ans=el('textarea',{class:'inp',rows:3,placeholder:'Type the stakeholder answer'});
-  const push=(t,me)=>log.append(el('div',{class:'msg'+(me?' me':'')},t));
-  const ask=async(d)=>{IV=d.session_id;push(d.question);ans.value='';if(d.done){push('Interview complete.');addBtn.hidden=false}};
-  const add=el('button',{onclick:()=>act(async()=>{const d=await api('/api/interview/start',{method:'POST',body:{role:role.value}});log.replaceChildren();await ask(d)})},'Start interview');
-  const send=el('button',{class:'primary',onclick:()=>act(async()=>{if(!IV||!ans.value.trim())return;push(ans.value,true);const d=await api('/api/interview/answer',{method:'POST',body:{session_id:IV,answer:ans.value}});window._tr=d.transcript;await ask(d)})},'Send answer');
-  const addBtn=el('button',{hidden:true,onclick:()=>{DOCS.push({name:'interview.txt',stakeholder:role.value,text:window._tr||''});renderDocs();say('Interview added to inputs. Press Analyse.')}},'Use transcript as input');
-  v.replaceChildren(el('p',{class:'small'},'The agent picks questions by role, skips topics already covered and follows up on vague answers.'),el('div',{class:'row'},role,add),log,ans,el('div',{class:'row'},send,addBtn));
-}
-async function runPipeline(){
-  const docs=DOCS.filter(d=>d.text.trim());if(!docs.length){say('Add at least one document',true);return}
-  const n=id=>+$(id).value;
-  say('Analysing...');
-  await act(async()=>{const r=await api('/api/runs',{method:'POST',body:{project_name:$('#pname').value,documents:docs,params:{duration_months:n('#p_months'),team_size:n('#p_team'),stakeholder_availability:n('#p_avail'),legacy_dependence:n('#p_legacy'),continuous_delivery_need:n('#p_cd'),budget_pressure:n('#p_budget')}}});
-    RUN={run_id:r.run_id};await reload();TAB='Requirements';tabs();draw();say(`Run ${r.run_id} done in ${r.metrics.ms_total} ms`)});
-}
-(async()=>{
-  const h=await api('/api/health');$('#mode').textContent='mode: '+h.mode+(h.model?' ('+h.model+')':'');
-  $('#user').replaceChildren(...h.users.map(u=>el('option',{value:u.key},`${u.name}`)));
-  $('#user').onchange=e=>{KEY=e.target.value;say('Acting as '+e.target.selectedOptions[0].textContent)};
-  $('#addDoc').onclick=()=>{DOCS.push({name:'document'+(DOCS.length+1)+'.txt',stakeholder:'Pharmacist',text:''});renderDocs()};
-  $('#loadSamples').onclick=()=>act(async()=>{DOCS=(await api('/api/samples')).map(s=>({name:s.name,stakeholder:s.stakeholder,text:s.text}));renderDocs()});
-  $('#run').onclick=runPipeline;
-  $('#verify').onclick=()=>act(async()=>{const r=await api('/api/audit/verify');say(r.ok?`Audit trail intact (${r.checked} entries)`:`AUDIT TRAIL BROKEN at entry ${r.broken_at}`,!r.ok)});
-  tabs();renderDocs();draw();
-})();
-</script>
-</body>
-</html>
+const $=s=>document.querySelector(s);const el=(t,a={},...k)=>{const e=document.createElement(t);for(const[x,v]of Object.entries(a)){if(x==='class')e.className=v;else if(x.startsWith('on'))e.addEventListener(x.slice(2),v);else if(v!==false&&v!=null)e.setAttribute(x,v)}for(const c of k.flat())e.append(c?.nodeType?c:document.createTextNode(c??''));return e};
+let KEY='analyst-key',RUN=null,TAB='Requirements',DOCS=[],IV=null,RUNS=[];const TABS=['Requirements','Questions','Conflicts','Compliance','Risks','SDLC','Validation','Files','Audit','Interview'];const NAV=[['Dashboard','◫'],['New analysis','＋'],['Requirements','▤'],['Questions','？'],['Conflicts','⇄'],['Compliance','✓'],['Risks','△'],['SDLC','⌘'],['Validation','◉'],['Files','▱'],['Audit','◷'],['Interview','✦']];let PAGE='Dashboard';
+async function api(path,opt={}){const r=await fetch(path,{...opt,headers:{'Content-Type':'application/json','X-API-Key':KEY,...(opt.headers||{})},body:opt.body?JSON.stringify(opt.body):undefined});const t=await r.text();let j;try{j=JSON.parse(t)}catch{j=t}if(!r.ok)throw new Error(typeof j==='object'?(j.detail||JSON.stringify(j)):j);return j}
+const say=(m,err)=>{const s=$('#status');if(s){s.textContent=m;s.style.color=err?'var(--red)':''}};async function act(fn){try{await fn()}catch(e){say(e.message,true);alert(e.message)}}
+function nav(){const n=$('#sideNav');n.replaceChildren(...NAV.map(([name,icon])=>el('button',{class:(PAGE===name||TABS.includes(PAGE)&&PAGE===name?'active':''),title:name,onclick:()=>go(name)},el('span',{class:'navicon'},icon),el('span',{class:'navtext'},name))))}
+function go(name){PAGE=name;nav();$('#dashboard').hidden=name!=='Dashboard';$('#legacy').hidden=name==='Dashboard';if(name==='Dashboard')drawDashboard();else if(name==='New analysis'){TAB='Requirements';tabs();draw()}else{TAB=name;tabs();draw()}}
+function renderDocs(){const box=$('#docs');box.replaceChildren(...DOCS.map((d,i)=>el('div',{class:'doc'},el('label',{for:'dn'+i},'Stakeholder / file'),el('div',{class:'grid2'},el('input',{id:'dn'+i,value:d.stakeholder,oninput:e=>d.stakeholder=e.target.value,'aria-label':'Stakeholder'}),el('input',{value:d.name,oninput:e=>d.name=e.target.value,'aria-label':'File name'})),el('label',{for:'dt'+i},'Text'),el('textarea',{id:'dt'+i,oninput:e=>d.text=e.target.value},d.text),el('button',{class:'sm btn',onclick:()=>{DOCS.splice(i,1);renderDocs()}},'Remove'))))}
+function tabs(){const n=$('#tabs');n.replaceChildren(...TABS.map(t=>el('button',{role:'tab','aria-selected':t===TAB,onclick:()=>{TAB=t;PAGE=t;nav();tabs();draw()}},t)))}
+const chip=t=>el('span',{class:'chip'},t),sev=(t,c)=>el('span',{class:c||t},t);function table(head,rows){return el('div',{class:'wrap'},el('table',{},el('thead',{},el('tr',{},head.map(h=>el('th',{},h)))),el('tbody',{},rows.map(r=>el('tr',{},r.map(c=>el('td',{},c)))))))}
+async function reload(){RUN=await api('/api/runs/'+RUN.run_id);RUNS=await api('/api/runs');draw()}
+async function decide(id,decision){let note='',ns=null;if(decision==='modify'){ns=prompt('New wording for '+id,RUN.requirements.find(r=>r.id===id).statement);if(!ns)return}if(decision==='accept'||decision==='reject')note=prompt('Note (required to accept with unresolved high-severity issues; optional otherwise)','')||'';await act(async()=>{await api(`/api/runs/${RUN.run_id}/requirements/${id}/decision`,{method:'POST',body:{decision,note,new_statement:ns}});await reload()})}
+function draw(){const v=$('#view');if(TAB==='Interview')return drawInterview();if(!RUN){v.replaceChildren(el('div',{class:'empty'},'No analysis loaded. Start an analysis or choose a recent run from the dashboard.'));return}const R=RUN,out=[];out.push(el('div',{class:'notice'},R.status==='baselined'?'BASELINED. Changes need a new run.':'DRAFT. AI-assisted output; regulatory mappings are candidates for a pharmacist or compliance officer to confirm. Knowledge-base entries are unverified summaries.'));if(R.security_flags.length)out.push(el('div',{class:'notice'},'Security flags: ',R.security_flags.join(' / ')));
+if(TAB==='Requirements'){out.push(el('p',{class:'small'},`${R.requirements.length} requirements · Masked in inputs: ${JSON.stringify(R.pii_masked)}`));out.push(table(['ID','Requirement','Categories','Priority','Risk','Confidence','Rules','Issues','Status','Actions'],R.requirements.map(r=>[el('span',{class:'id'},r.id),el('div',{},r.statement,el('div',{class:'small'},`${r.source_stakeholder}: “${r.source_quote.slice(0,90)}”`)),r.categories.map(chip),r.priority,sev(r.risk_level),r.confidence.toFixed(2),r.regulations.map(x=>chip(x.kb_id)),r.issues.map(i=>el('div',{class:'small',title:i.message},sev(i.severity),' ',i.kind)),sev(r.approval_status),el('div',{class:'page-actions'},...['accept','reject','modify','regenerate'].map(d=>el('button',{class:'sm btn',onclick:()=>decide(r.id,d)},d)))])));out.push(el('p',{},el('button',{class:'primary btn',onclick:()=>act(async()=>{await api(`/api/runs/${R.run_id}/baseline`,{method:'POST'});say('Baselined');await reload()})},'Baseline requirements (project manager)'),R.baseline_blockers.length?el('div',{class:'small'},'Blockers: '+R.baseline_blockers.join(' | ')):''))}
+if(TAB==='Questions')out.push(table(['Requirement','Stakeholder','Severity','Issue','Question'],R.clarifications.map(q=>[el('span',{class:'id'},q.req_id),q.stakeholder,sev(q.severity),q.issue,q.question])));
+if(TAB==='Conflicts')out.push(R.conflicts.length?table(['ID','Kind','Requirements','Description','Options','Status'],R.conflicts.map(c=>[c.id,c.kind,c.req_ids.join(', '),c.description,el('ul',{},c.resolution_options.map(o=>el('li',{},o))),c.status==='open'?el('div',{class:'page-actions'},...(c.kind==='duplicate'?['keep','merge']:['keep']).map(a=>el('button',{class:'sm btn',onclick:()=>{const note=prompt('Resolution note (10+ characters)');if(note)act(async()=>{await api(`/api/runs/${R.run_id}/conflicts/${c.id}/resolve`,{method:'POST',body:{note,action:a}});await reload()})}},a==='keep'?'resolve':'merge'))):sev('resolved','pass')])):el('p',{},'No conflicts found.'));
+if(TAB==='Compliance'){out.push(el('h3',{},'Control gaps'),el('p',{class:'small'},'Controls without a covering requirement. Suggested wording is for the analyst to consider; it is not added automatically.'),R.gaps.length?table(['Rule','Control','Suggested requirement','Severity'],R.gaps.map(g=>[g.kb_id,g.description,g.suggested_requirement,sev(g.severity)])):el('p',{},'No gaps.'),el('h3',{},'Candidate mappings'),table(['Requirement','Rule','Score','Verified','Rationale'],R.requirements.flatMap(r=>r.regulations.map(x=>[el('span',{class:'id'},r.id),x.title,x.score,x.verified?'Yes':'No',x.rationale]))))}
+if(TAB==='Risks')out.push(table(['ID','Risk','Likelihood','Impact','Rating','Mitigation','Requirements'],R.risks.map(x=>[x.id,x.title,x.likelihood,x.impact,sev(x.rating),x.mitigation,x.req_ids.join(', ')||'platform'])));
+if(TAB==='SDLC'){const s=R.sdlc;out.push(el('h2',{},s.recommended),el('p',{},s.explanation),table(['Model','Score'],s.ranking.map(x=>[x.model,el('div',{},x.score+'%',el('div',{class:'bar'},el('i',{style:`width:${x.score}%`})))])),el('h3',{},'Factors'),el('div',{class:'kv'},Object.entries(s.factors).flatMap(([k,v])=>[k.replaceAll('_',' '),el('div',{},v.toFixed(2),el('div',{class:'bar'},el('i',{style:`width:${v*100}%`})))])),el('h3',{},'Rules applied'),el('ul',{},s.rules_fired.map(r=>el('li',{},r))),el('h3',{},'Sign-offs'),table(['Role','Signed by'],['project_manager','architect','security','compliance_officer'].map(r=>[r,s.signoffs[r]||'pending'])),el('button',{class:'btn',onclick:()=>act(async()=>{await api(`/api/runs/${R.run_id}/sdlc/signoff`,{method:'POST'});await reload()})},'Sign off as current user'),el('h3',{},'Workflow'),...s.workflow.map((p,i)=>el('div',{class:'doc'},el('b',{},`${i+1}. ${p.name}`),el('div',{class:'small'},(p.iteration||'')+' Activities: '+p.activities.join('; ')),el('div',{class:'small'},'Roles: '+p.roles.join(', ')),el('div',{class:'small'},'Compliance: '+p.compliance_checkpoints.join('; ')),el('div',{class:'small'},'Gate: '+p.gate))))}
+if(TAB==='Validation')out.push(table(['Gate','Name','Status','Detail'],R.validation.gates.map(g=>[g.id,g.name+(g.blocking?'':' (advisory)'),sev(g.status),g.detail])),el('h3',{},'Metrics'),table(['Metric','Value'],[...Object.entries(R.validation.metrics),...Object.entries(R.metrics).filter(([k])=>k!=='context_notes')].map(([k,v])=>[k,String(v)])));
+if(TAB==='Files')out.push(el('ul',{},R.artifacts.map(f=>el('li',{},el('a',{href:'#',onclick:async e=>{e.preventDefault();await act(async()=>{$('#fileview').textContent=await api(`/api/runs/${R.run_id}/artifacts/${f}`)})}},f)))),el('pre',{id:'fileview'},'Select a file to preview.'));
+if(TAB==='Audit')act(async()=>{const a=await api(`/api/runs/${R.run_id}/audit`);v.replaceChildren(...out,table(['#','Time','Actor','Action','Payload'],a.map(x=>[x.id,x.ts,x.actor,x.action,x.payload.slice(0,160)])))});else v.replaceChildren(...out)}
+function drawInterview(){const v=$('#view'),role=el('input',{class:'inp',value:'Pharmacist',style:'max-width:240px', 'aria-label':'Role'}),log=el('div',{}),ans=el('textarea',{class:'inp',rows:3,placeholder:'Type the stakeholder answer'});const push=(t,me)=>log.append(el('div',{class:'msg'+(me?' me':'')},t));const ask=async d=>{IV=d.session_id;push(d.question);ans.value='';if(d.done){push('Interview complete.');addBtn.hidden=false}};const add=el('button',{class:'btn',onclick:()=>act(async()=>{const d=await api('/api/interview/start',{method:'POST',body:{role:role.value}});log.replaceChildren();await ask(d)})},'Start interview');const send=el('button',{class:'primary btn',onclick:()=>act(async()=>{if(!IV||!ans.value.trim())return;push(ans.value,true);const d=await api('/api/interview/answer',{method:'POST',body:{session_id:IV,answer:ans.value}});window._tr=d.transcript;await ask(d)})},'Send answer');const addBtn=el('button',{class:'btn',hidden:true,onclick:()=>{DOCS.push({name:'interview.txt',stakeholder:role.value,text:window._tr||''});renderDocs();say('Interview added to inputs. Press Analyse.');go('New analysis')}},'Use transcript as input');v.replaceChildren(el('p',{class:'small'},'The agent selects role-specific questions, skips covered topics and follows up on vague answers.'),el('div',{class:'page-actions'},role,add),log,ans,el('div',{class:'page-actions'},send,addBtn))}
+async function drawDashboard(){const d=$('#dashboard');d.replaceChildren(el('div',{class:'pagehead'},el('div',{},el('h1',{},'Welcome to your requirements workspace'),el('p',{},'Review analysis activity, approvals and generated evidence.')),el('div',{class:'page-actions'},el('button',{class:'primary btn',onclick:()=>go('New analysis')},'＋ New analysis'))));let latest=RUN;if(!RUNS.length){try{RUNS=await api('/api/runs')}catch(e){d.append(el('div',{class:'notice'},e.message));return}}if(!latest&&RUNS.length){try{RUN={run_id:RUNS[0].run_id};RUN=await api('/api/runs/'+RUN.run_id);latest=RUN}catch{}}else latest=RUN;const req=latest?.requirements||[],pending=req.filter(r=>r.approval_status==='pending').length,coverage=req.length?Math.round((req.filter(r=>r.regulations.length>0).length/req.length)*100):null;const metric=(label,val,icon,detail)=>el('div',{class:'card metric'},el('div',{class:'metric-top'},label,el('span',{class:'metric-icon'},icon)),el('strong',{},val),el('div',{class:'small'},detail));d.append(el('div',{class:'metric-grid'},metric('Analysis runs',RUNS.length,'▤','Saved runs available'),metric('Requirements extracted',latest?req.length:'—','⌕',latest?`Latest: ${latest.project_name}`:'Run an analysis to see results'),metric('Pending approvals',latest?pending:'—','◷',latest?`${latest.status==='baselined'?'Latest run baselined':'Latest run · '+latest.run_id}`:'No run data'),metric('Compliance coverage',coverage===null?'—':coverage+'%','✓',latest?`${latest.gaps.length} control gaps in latest run`:'No run data')));const activity=RUNS.length?RUNS.slice(0,8).map(r=>el('div',{class:'activity-row',onclick:async()=>{await act(async()=>{RUN=await api('/api/runs/'+r.run_id);go('Requirements')})},style:'cursor:pointer'},el('span',{class:'activity-dot'}),el('div',{},el('strong',{},r.project||'Untitled project'),el('span',{class:'small'},`${r.created||''} · Run ${r.run_id}`)))):[el('div',{class:'empty'},'No analysis activity yet.')];const state=latest?`${latest.status==='baselined'?'Baselined':'Draft'} · ${latest.run_id}`:'Ready for your first analysis';d.append(el('div',{class:'dashboard-grid'},el('section',{class:'card'},el('div',{class:'section-head'},el('h2',{},'Recent analysis activity'),el('span',{class:'badge'},`${RUNS.length} runs`)),el('div',{class:'activity'},...activity)),el('aside',{class:'card'},el('div',{class:'section-head'},el('h2',{},'Quick actions')),el('div',{class:'quick-actions'},el('button',{onclick:()=>go('New analysis')},'＋ Start a new analysis'),el('button',{onclick:()=>go('Interview')},'✦ Gather stakeholder input'),el('button',{onclick:()=>go('Audit')},'◷ Review audit history')),el('h3',{style:'margin-top:22px'},'Latest run status'),el('div',{class:'run-state'},el('span',{class:'status-mark'}),el('div',{},el('b',{},state),el('span',{class:'small'},latest?`${req.length} requirements · ${pending} awaiting approval`:'Upload stakeholder documents to begin'))))));}
+async function runPipeline(){const docs=DOCS.filter(d=>d.text.trim());if(!docs.length){say('Add at least one document',true);return}const n=id=>+$(id).value;say('Analysing requirements…');$('#run').disabled=true;try{const r=await api('/api/runs',{method:'POST',body:{project_name:$('#pname').value,documents:docs,params:{duration_months:n('#p_months'),team_size:n('#p_team'),stakeholder_availability:n('#p_avail'),legacy_dependence:n('#p_legacy'),continuous_delivery_need:n('#p_cd'),budget_pressure:n('#p_budget')}}});RUN={run_id:r.run_id};await reload();TAB='Requirements';PAGE='Requirements';nav();tabs();draw();say(`Analysis complete · ${r.metrics.ms_total} ms`)}catch(e){say(e.message,true);alert(e.message)}finally{$('#run').disabled=false}}
+(async()=>{nav();renderDocs();tabs();$('#addDoc').onclick=()=>{DOCS.push({name:'document'+(DOCS.length+1)+'.txt',stakeholder:'Pharmacist',text:''});renderDocs()};$('#loadSamples').onclick=()=>act(async()=>{DOCS=(await api('/api/samples')).map(s=>({name:s.name,stakeholder:s.stakeholder,text:s.text}));renderDocs();say(`${DOCS.length} sample documents loaded`)});$('#run').onclick=runPipeline;$('#verify').onclick=()=>act(async()=>{const r=await api('/api/audit/verify');say(r.ok?`Audit trail intact (${r.checked} entries)`:`AUDIT TRAIL BROKEN at entry ${r.broken_at}`,!r.ok)});try{const h=await api('/api/health');$('#mode').textContent='mode: '+h.mode+(h.model?' · '+h.model:'');$('#user').replaceChildren(...h.users.map(u=>el('option',{value:u.key},u.name)));$('#user').onchange=e=>{KEY=e.target.value;say('Acting as '+e.target.selectedOptions[0].textContent)};RUNS=await api('/api/runs');if(RUNS.length){RUN={run_id:RUNS[0].run_id};RUN=await api('/api/runs/'+RUN.run_id)}drawDashboard()}catch(e){$('#mode').textContent='API unavailable';$('#dashboard').append(el('div',{class:'notice'},e.message))}})();
+</script></body></html>
