@@ -1,0 +1,2 @@
+requirement_id,statement,source_stakeholder,source_doc,source_quote,categories,rules,risk_level,acceptance_criteria,test_case,approval_status
+NFR-SEC-001,The system must require two-factor authentication for all pharmacist logins.,Pharmacist,pharmacist_notes.txt,The system must require two-factor authentication for all pharmacist logins.,security;patient_safety,ISO-27001-AC,High,"Given a user without the required role, the action is denied and the attempt is logged.",TC-NFR-SEC-001-01,accepted

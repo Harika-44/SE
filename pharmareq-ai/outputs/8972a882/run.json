@@ -1,0 +1,769 @@
+{
+  "run_id": "8972a882",
+  "project_name": "PharmaReq Demo",
+  "created": "2026-11-26T17:23:11+00:00",
+  "mode": "llm+rules",
+  "status": "draft",
+  "params": {
+    "duration_months": 2.0,
+    "team_size": 4,
+    "stakeholder_availability": 3,
+    "legacy_dependence": 3,
+    "continuous_delivery_need": 2,
+    "budget_pressure": 3,
+    "pharmacy_type": "retail"
+  },
+  "documents": [
+    {
+      "name": "pharmacist_notes.txt",
+      "stakeholder": "Pharmacist",
+      "text": "The system must require two-factor authentication for all pharmacist logins. \nSchedule H1 sales must be logged with patient name and prescriber details."
+    }
+  ],
+  "requirements": [
+    {
+      "id": "NFR-SEC-001",
+      "statement": "The system must require two-factor authentication for all pharmacist logins.",
+      "categories": [
+        "security",
+        "patient_safety"
+      ],
+      "source_stakeholder": "Pharmacist",
+      "source_doc": "pharmacist_notes.txt",
+      "source_quote": "The system must require two-factor authentication for all pharmacist logins.",
+      "justification": "Protects regulated records and patient data from misuse.",
+      "priority": "Must",
+      "dependencies": [],
+      "assumptions": [],
+      "acceptance_criteria": [
+        "Given a user without the required role, the action is denied and the attempt is logged."
+      ],
+      "regulations": [
+        {
+          "kb_id": "ISO-27001-AC",
+          "title": "Information security controls - access control, logging, secure operation",
+          "source": "ISO/IEC 27001:2022 Annex A (access control, logging, cryptography) and OWASP ASVS",
+          "jurisdiction": "International standard",
+          "effective_date": "2022",
+          "version": "2022 - verify current",
+          "verified": false,
+          "score": 0.225,
+          "rationale": "Matched terms: authentication, login"
+        }
+      ],
+      "risk_level": "High",
+      "risk_score": 5,
+      "confidence": 0.78,
+      "approval_status": "accepted",
+      "approved_by": "Ravi (Pharmacist)",
+      "waiver_note": null,
+      "issues": [],
+      "needs_human": false,
+      "module": "SEC"
+    },
+    {
+      "id": "FR-REG-001",
+      "statement": "Schedule H1 sales must be logged with patient name and prescriber details.",
+      "categories": [
+        "regulatory",
+        "privacy",
+        "audit_reporting"
+      ],
+      "source_stakeholder": "Pharmacist",
+      "source_doc": "pharmacist_notes.txt",
+      "source_quote": "Schedule H1 sales must be logged with patient name and prescriber details.",
+      "justification": "Supports regulatory compliance and inspection readiness.",
+      "priority": "Must",
+      "dependencies": [],
+      "assumptions": [],
+      "acceptance_criteria": [
+        "Given a scheduled drug is dispensed, when the sale is confirmed, then a register entry with patient, prescriber, drug, batch, quantity and date exists.",
+        "A user cannot complete the sale while a mandatory register field is empty.",
+        "Given a prescription with a missing mandatory field, the system refuses to continue and lists the missing fields."
+      ],
+      "regulations": [
+        {
+          "kb_id": "DCR-SCHED-H1",
+          "title": "Drugs and Cosmetics Rules - Schedule H1 drugs (separate register)",
+          "source": "Drugs and Cosmetics Rules, 1945 (Schedule H1, inserted 2013-14)",
+          "jurisdiction": "India",
+          "effective_date": "2014 (as amended)",
+          "version": "as amended - verify current",
+          "verified": false,
+          "score": 0.447,
+          "rationale": "Matched terms: h1, name, patient, prescriber, schedule"
+        },
+        {
+          "kb_id": "DCR-SCHED-H",
+          "title": "Drugs and Cosmetics Rules, 1945 - Schedule H drugs (sale on prescription)",
+          "source": "Drugs and Cosmetics Act, 1940 and Rules, 1945 (Rule 65 and Schedule H)",
+          "jurisdiction": "India",
+          "effective_date": "1945 (as amended)",
+          "version": "as amended - verify current",
+          "verified": false,
+          "score": 0.369,
+          "rationale": "Matched terms: name, patient, prescriber, sale, schedule"
+        }
+      ],
+      "risk_level": "High",
+      "risk_score": 5,
+      "confidence": 0.85,
+      "approval_status": "rejected",
+      "approved_by": "Ravi (Pharmacist)",
+      "waiver_note": null,
+      "issues": [],
+      "needs_human": false,
+      "module": "REG"
+    }
+  ],
+  "conflicts": [],
+  "gaps": [
+    {
+      "kb_id": "DCR-SCHED-H",
+      "control": "H-RX-REQUIRED",
+      "description": "Block sale of Schedule H drugs without a valid prescription",
+      "suggested_requirement": "The system shall not allow a Schedule H drug to be dispensed unless a valid prescription is attached to the sale.",
+      "severity": "high"
+    },
+    {
+      "kb_id": "DCR-SCHED-H1",
+      "control": "H1-REGISTER",
+      "description": "Maintain a separate Schedule H1 register entry for each supply",
+      "suggested_requirement": "The system shall create a Schedule H1 register entry (patient, prescriber, drug, batch, quantity, date) for every H1 dispensing.",
+      "severity": "high"
+    },
+    {
+      "kb_id": "DCR-SCHED-H1",
+      "control": "H1-RETENTION",
+      "description": "Retain H1 records for the legally required period",
+      "suggested_requirement": "The system shall retain Schedule H1 register entries for the legally required period (to be confirmed by the compliance officer) and prevent their deletion.",
+      "severity": "high"
+    },
+    {
+      "kb_id": "DCR-SCHED-X",
+      "control": "X-DUP-RX",
+      "description": "Retain a copy of the prescription for Schedule X supply",
+      "suggested_requirement": "The system shall store a copy of the prescription for every Schedule X supply and link it to the register entry.",
+      "severity": "high"
+    },
+    {
+      "kb_id": "DCR-SCHED-X",
+      "control": "X-REGISTER",
+      "description": "Record every Schedule X supply",
+      "suggested_requirement": "The system shall record every Schedule X supply in the scheduled-drug register.",
+      "severity": "high"
+    },
+    {
+      "kb_id": "NDPS-1985",
+      "control": "NDPS-STOCK-RECORD",
+      "description": "Accurate stock and supply records for NDPS substances",
+      "suggested_requirement": "The system shall keep an accurate stock and supply record for NDPS substances and support inspection reports.",
+      "severity": "high"
+    },
+    {
+      "kb_id": "DCR-LICENCE-PHARMACIST",
+      "control": "LIC-INSPECTION-REPORT",
+      "description": "Produce purchase/sale records for the inspector",
+      "suggested_requirement": "The system shall produce purchase, sale and scheduled-drug records on demand for a drug inspector.",
+      "severity": "high"
+    },
+    {
+      "kb_id": "PCI-PPR-2015",
+      "control": "PPR-VERIFY-STEP",
+      "description": "Pharmacist verification step before handing over the drug",
+      "suggested_requirement": "The system shall require an explicit pharmacist verification step (drug, strength, quantity, batch) before a dispensing is completed.",
+      "severity": "medium"
+    },
+    {
+      "kb_id": "PCI-PPR-2015",
+      "control": "PPR-SUBSTITUTION-RECORD",
+      "description": "Record every substitution with reason",
+      "suggested_requirement": "The system shall record every drug substitution with the original drug, the substitute, the reason and the approving pharmacist.",
+      "severity": "medium"
+    },
+    {
+      "kb_id": "DPDP-2023",
+      "control": "DPDP-CONSENT-PURPOSE",
+      "description": "Collect only needed patient data, for a stated purpose",
+      "suggested_requirement": "The system shall collect only the patient data needed for dispensing and record the purpose and consent status.",
+      "severity": "high"
+    },
+    {
+      "kb_id": "DPDP-2023",
+      "control": "DPDP-SAFEGUARDS",
+      "description": "Protect personal data (access control, encryption, masking)",
+      "suggested_requirement": "The system shall protect patient and prescription data with role-based access, encryption in transit and at rest, and masking in non-clinical views.",
+      "severity": "high"
+    },
+    {
+      "kb_id": "DPDP-2023",
+      "control": "DPDP-BREACH",
+      "description": "Detect and report personal-data breaches",
+      "suggested_requirement": "The system shall log access to patient data and support breach investigation and notification.",
+      "severity": "high"
+    },
+    {
+      "kb_id": "WHO-DATA-INTEGRITY",
+      "control": "DI-AUDIT-TRAIL",
+      "description": "Audit trail with user, time and reason for every record change",
+      "suggested_requirement": "The system shall keep an audit trail (user, timestamp, old value, new value, reason) for every change to dispensing, stock and register records.",
+      "severity": "medium"
+    },
+    {
+      "kb_id": "WHO-DATA-INTEGRITY",
+      "control": "DI-NO-DELETE",
+      "description": "Prevent deletion or silent overwrite of regulated records",
+      "suggested_requirement": "The system shall prevent deletion of regulated records; corrections shall be added as new entries that reference the original.",
+      "severity": "medium"
+    },
+    {
+      "kb_id": "ISO-27001-AC",
+      "control": "SEC-RBAC",
+      "description": "Role-based access with least privilege",
+      "suggested_requirement": "The system shall enforce role-based access control with least privilege for pharmacist, assistant, owner and auditor roles.",
+      "severity": "medium"
+    }
+  ],
+  "risks": [
+    {
+      "id": "RG-01",
+      "title": "Incomplete or missing scheduled-drug register entry (inspection finding)",
+      "category": "regulatory",
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Register entry is created atomically with the sale; mandatory fields enforced.",
+      "verification": "Register completeness test; mock inspection.",
+      "req_ids": [
+        "FR-REG-001"
+      ]
+    },
+    {
+      "id": "SC-01",
+      "title": "Unauthorised access to patient or prescription data",
+      "category": "security",
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "RBAC, least privilege, MFA for privileged actions, encryption, access logging.",
+      "verification": "Access-control tests; threat model review.",
+      "req_ids": [
+        "NFR-SEC-001",
+        "FR-REG-001"
+      ]
+    },
+    {
+      "id": "AI-01",
+      "title": "LLM hallucination invents a requirement or a rule",
+      "category": "ai_platform",
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Grounding check on every proposal (verbatim quote), RAG citations, confidence scores, human approval.",
+      "verification": "Hallucination-rate metric in evaluation.",
+      "req_ids": []
+    },
+    {
+      "id": "AI-04",
+      "title": "Outdated or wrong regulatory text in the knowledge base",
+      "category": "ai_platform",
+      "likelihood": 3,
+      "impact": 4,
+      "score": 12,
+      "rating": "High",
+      "mitigation": "Versioned KB, 'verified' flag, official source check before use, regulator-facing claims need human sign-off.",
+      "verification": "KB review checklist before each release.",
+      "req_ids": []
+    },
+    {
+      "id": "AI-05",
+      "title": "Over-trust: AI output treated as legal or clinical advice",
+      "category": "ai_platform",
+      "likelihood": 2,
+      "impact": 5,
+      "score": 10,
+      "rating": "High",
+      "mitigation": "Scope guard, 'candidate mapping' wording, mandatory approvals by qualified roles.",
+      "verification": "Approval-gate tests.",
+      "req_ids": []
+    },
+    {
+      "id": "RG-03",
+      "title": "Schedule lists or rules change and software is out of date",
+      "category": "regulatory",
+      "likelihood": 3,
+      "impact": 3,
+      "score": 9,
+      "rating": "Medium",
+      "mitigation": "Configurable schedule lists with versioning and an owner for change control.",
+      "verification": "Change-control drill: update list, verify behaviour.",
+      "req_ids": [
+        "FR-REG-001"
+      ]
+    },
+    {
+      "id": "AI-02",
+      "title": "Prompt injection through uploaded stakeholder documents",
+      "category": "ai_platform",
+      "likelihood": 2,
+      "impact": 4,
+      "score": 8,
+      "rating": "Medium",
+      "mitigation": "Input screening, untrusted-text delimiters, JSON-only outputs, no tool access for agents.",
+      "verification": "Injection test document in the sample set.",
+      "req_ids": []
+    },
+    {
+      "id": "AI-03",
+      "title": "Sensitive data sent to an LLM",
+      "category": "ai_platform",
+      "likelihood": 2,
+      "impact": 4,
+      "score": 8,
+      "rating": "Medium",
+      "mitigation": "PII masking before any LLM call; synthetic data only in the prototype.",
+      "verification": "Masking unit tests.",
+      "req_ids": []
+    },
+    {
+      "id": "PV-01",
+      "title": "Personal data used beyond purpose / not minimised",
+      "category": "privacy",
+      "likelihood": 2,
+      "impact": 3,
+      "score": 6,
+      "rating": "Medium",
+      "mitigation": "Collect minimum data; purpose and consent recorded; masking in non-clinical views.",
+      "verification": "Privacy review; data-flow check.",
+      "req_ids": [
+        "FR-REG-001"
+      ]
+    }
+  ],
+  "sdlc": {
+    "factors": {
+      "requirement_stability": 0.84,
+      "regulatory_criticality": 1.0,
+      "patient_safety_impact": 1.0,
+      "security_privacy_risk": 1.0,
+      "complexity": 0.21,
+      "system_size": 0.17,
+      "legacy_dependence": 0.36,
+      "change_frequency": 0.2,
+      "continuous_delivery_need": 0.4,
+      "stakeholder_availability": 0.6,
+      "verification_need": 0.85,
+      "budget_schedule_pressure": 0.76,
+      "uncertainty": 0.1
+    },
+    "ranking": [
+      {
+        "model": "V-Model",
+        "score": 91.0
+      },
+      {
+        "model": "Waterfall",
+        "score": 81.6
+      },
+      {
+        "model": "V-Model with Agile iterations",
+        "score": 80.5
+      },
+      {
+        "model": "DevSecOps hybrid (V-Model gates + CI/CD)",
+        "score": 78.5
+      },
+      {
+        "model": "DevSecOps",
+        "score": 65.1
+      },
+      {
+        "model": "Spiral",
+        "score": 45.9
+      },
+      {
+        "model": "Agile",
+        "score": 43.4
+      }
+    ],
+    "rules_fired": [
+      "R1: patient-safety impact and regulatory criticality are both high -> pure Agile capped at 60 (it does not give validation evidence on its own).",
+      "R4: stable requirements and high verification need -> bonus for V-Model/Waterfall.",
+      "R7: validated-system expectations -> Waterfall penalised for late verification and slow response to rule changes."
+    ],
+    "recommended": "V-Model",
+    "explanation": "V-Model ranks first (91.0%). Best-matching drivers: need for formal verification and evidence 0.85 (target 0.95); regulatory criticality 1.00 (target 0.90); patient-safety impact of failure 1.00 (target 0.90); requirement stability 0.84 (target 0.75). Runner-up: Waterfall (81.6%). Rules applied: R1 R4 R7. Final adoption needs approval from the project manager, architect, security lead and compliance officer.",
+    "workflow": [
+      {
+        "name": "Planning and validation plan",
+        "activities": [
+          "Confirm scope: prescription-to-dispensing with scheduled-drug register",
+          "Agree roles, tools, risk-based validation plan",
+          "Set up requirement baseline and change-control process"
+        ],
+        "roles": [
+          "Project manager",
+          "Compliance officer",
+          "Pharmacist (domain lead)"
+        ],
+        "deliverables": [
+          "Project plan",
+          "Validation plan",
+          "Stakeholder list"
+        ],
+        "security_controls": [
+          "Access model for project artefacts"
+        ],
+        "compliance_checkpoints": [
+          "Compliance officer confirms applicable rules list"
+        ],
+        "gate": "G0: plan approved",
+        "entry_criteria": [
+          "Project mandate"
+        ],
+        "exit_criteria": [
+          "Validation plan signed"
+        ]
+      },
+      {
+        "name": "Requirements and hazard analysis",
+        "activities": [
+          "Elicit and clarify requirements (this tool)",
+          "Hazard analysis: wrong drug, expired batch, missing register entry",
+          "Resolve conflicts and open questions",
+          "Map requirements to rules"
+        ],
+        "roles": [
+          "Business analyst",
+          "Pharmacist",
+          "Compliance officer"
+        ],
+        "deliverables": [
+          "SRS",
+          "Traceability matrix (draft)",
+          "Hazard log",
+          "Compliance matrix"
+        ],
+        "security_controls": [
+          "Data-classification of patient data"
+        ],
+        "compliance_checkpoints": [
+          "Every regulatory requirement has a cited source",
+          "Pharmacist approves safety-critical requirements"
+        ],
+        "gate": "G1: requirement baseline approved",
+        "entry_criteria": [
+          "Plan signed"
+        ],
+        "exit_criteria": [
+          "No open high-severity conflicts",
+          "Mandatory approvals complete"
+        ]
+      },
+      {
+        "name": "Architecture and design with threat modelling",
+        "activities": [
+          "Design modules (dispensing, register, inventory, billing)",
+          "Threat model: unauthorised override, record tampering, data leakage",
+          "Define audit-trail and register data model",
+          "Interface contracts for legacy systems"
+        ],
+        "roles": [
+          "Architect",
+          "Security lead",
+          "Developers"
+        ],
+        "deliverables": [
+          "Architecture document",
+          "Threat model",
+          "Data model",
+          "Interface specs"
+        ],
+        "security_controls": [
+          "Threat modelling",
+          "RBAC design",
+          "Encryption design"
+        ],
+        "compliance_checkpoints": [
+          "Design review against compliance matrix"
+        ],
+        "gate": "G2: design approved",
+        "entry_criteria": [
+          "Requirement baseline"
+        ],
+        "exit_criteria": [
+          "Every requirement allocated to a design element"
+        ]
+      },
+      {
+        "name": "Implementation",
+        "activities": [
+          "Implement features in small increments",
+          "Peer review of every change",
+          "Unit tests alongside code"
+        ],
+        "roles": [
+          "Developers"
+        ],
+        "deliverables": [
+          "Source code",
+          "Unit tests"
+        ],
+        "security_controls": [
+          "Static analysis (SAST)",
+          "Dependency and secret scanning"
+        ],
+        "compliance_checkpoints": [
+          "Safety-critical code reviewed by a second developer"
+        ],
+        "gate": "Increment done: tests and scans pass",
+        "entry_criteria": [
+          "Approved design"
+        ],
+        "exit_criteria": [
+          "No critical scan findings"
+        ]
+      },
+      {
+        "name": "Verification (unit, integration, system)",
+        "activities": [
+          "Unit and integration tests",
+          "System tests against SRS",
+          "Regression suite for dispensing and register",
+          "V-mapping: unit tests <-> module design, integration tests <-> architecture, system tests <-> SRS, UAT <-> user needs"
+        ],
+        "roles": [
+          "QA engineer",
+          "Developers"
+        ],
+        "deliverables": [
+          "Test reports",
+          "Updated traceability matrix"
+        ],
+        "security_controls": [
+          "Security tests of override and access paths"
+        ],
+        "compliance_checkpoints": [
+          "Each requirement linked to a passed test"
+        ],
+        "gate": "G3: verification complete",
+        "entry_criteria": [
+          "Build complete"
+        ],
+        "exit_criteria": [
+          "All Must requirements verified"
+        ]
+      },
+      {
+        "name": "Validation with pharmacists",
+        "activities": [
+          "Dispensing-accuracy test set (including expired, recalled, H1/X cases)",
+          "Batch-integrity and register-completeness tests",
+          "User acceptance testing by a pharmacist",
+          "Mock inspection using the generated reports"
+        ],
+        "roles": [
+          "Pharmacist",
+          "QA engineer",
+          "Compliance officer"
+        ],
+        "deliverables": [
+          "Validation report with objective evidence",
+          "UAT sign-off"
+        ],
+        "security_controls": [
+          "Penetration or vulnerability test"
+        ],
+        "compliance_checkpoints": [
+          "Mock inspection passed"
+        ],
+        "gate": "G4: validation accepted",
+        "entry_criteria": [
+          "Verification complete"
+        ],
+        "exit_criteria": [
+          "Pharmacist UAT signed"
+        ]
+      },
+      {
+        "name": "Compliance approval and release",
+        "activities": [
+          "Compliance review of evidence pack",
+          "Go-live checklist and rollback plan",
+          "Training of pharmacy staff"
+        ],
+        "roles": [
+          "Compliance officer",
+          "Project manager",
+          "Pharmacy owner"
+        ],
+        "deliverables": [
+          "Release approval",
+          "Training record"
+        ],
+        "security_controls": [
+          "Production access review",
+          "Backup and restore verified"
+        ],
+        "compliance_checkpoints": [
+          "Compliance officer approves release"
+        ],
+        "gate": "G5: release approved",
+        "entry_criteria": [
+          "Validation accepted"
+        ],
+        "exit_criteria": [
+          "Approvals recorded in the audit trail"
+        ]
+      },
+      {
+        "name": "Operation and change control",
+        "activities": [
+          "Monitor errors and incidents",
+          "Update schedule lists and rules under change control",
+          "Re-validate on significant change"
+        ],
+        "roles": [
+          "Pharmacy owner",
+          "Compliance officer",
+          "Support team"
+        ],
+        "deliverables": [
+          "Change records",
+          "Incident log"
+        ],
+        "security_controls": [
+          "Log monitoring",
+          "Periodic access review"
+        ],
+        "compliance_checkpoints": [
+          "Regulatory-change review each quarter"
+        ],
+        "gate": "Change gate: impact assessed",
+        "entry_criteria": [
+          "Released"
+        ],
+        "exit_criteria": [
+          "Change impact assessed and approved"
+        ]
+      }
+    ],
+    "signoffs": {}
+  },
+  "validation": {
+    "gates": [
+      {
+        "id": "V1",
+        "name": "Every requirement has a source",
+        "status": "pass",
+        "detail": "OK",
+        "blocking": true
+      },
+      {
+        "id": "V2",
+        "name": "Every requirement has acceptance criteria",
+        "status": "pass",
+        "detail": "OK",
+        "blocking": true
+      },
+      {
+        "id": "V3",
+        "name": "Regulatory / safety requirements cite a source",
+        "status": "pass",
+        "detail": "OK",
+        "blocking": true
+      },
+      {
+        "id": "V4",
+        "name": "No open conflicts",
+        "status": "pass",
+        "detail": "OK",
+        "blocking": true
+      },
+      {
+        "id": "V5",
+        "name": "Duplicates reviewed",
+        "status": "pass",
+        "detail": "OK",
+        "blocking": false
+      },
+      {
+        "id": "V6",
+        "name": "No unresolved high-severity issues",
+        "status": "pass",
+        "detail": "OK",
+        "blocking": true
+      },
+      {
+        "id": "V7",
+        "name": "Mandatory human approvals complete",
+        "status": "pass",
+        "detail": "OK",
+        "blocking": true
+      },
+      {
+        "id": "V8",
+        "name": "Regulatory control gaps decided",
+        "status": "warn",
+        "detail": "15 control gap(s): add a requirement or record why not applicable",
+        "blocking": false
+      },
+      {
+        "id": "V9",
+        "name": "SDLC selection signed off",
+        "status": "fail",
+        "detail": "Awaiting: project_manager, architect, security, compliance_officer",
+        "blocking": true
+      }
+    ],
+    "metrics": {
+      "requirements_active": 1,
+      "completeness_pct": 100.0,
+      "ambiguous_pct": 0.0,
+      "regulatory_control_coverage_pct": 16.7,
+      "traceability_coverage_pct": 100.0,
+      "avg_confidence": 0.78,
+      "open_conflicts": 0,
+      "low_confidence_escalations": 0
+    },
+    "baseline_ready": false
+  },
+  "security_flags": [],
+  "pii_masked": {},
+  "metrics": {
+    "ms_extraction": 517.6,
+    "ms_classification": 12.5,
+    "ms_quality": 6.2,
+    "ms_compliance": 122.8,
+    "ms_conflict": 0.6,
+    "ms_risk": 4.3,
+    "ms_sdlc": 113.9,
+    "context_notes": [],
+    "controls_total": 18,
+    "extraction_proposed": 2,
+    "extraction_dropped_ungrounded": 0,
+    "hallucination_rate_pct": 0.0,
+    "llm_calls": 3,
+    "invalid_llm_citations": 0,
+    "ms_total": 924.0
+  },
+  "artifacts": [
+    "01_SRS.md",
+    "02_user_stories.md",
+    "03_use_cases.md",
+    "04_workflows.md",
+    "05_data_and_interfaces.md",
+    "06_risk_register.md",
+    "07_compliance_matrix.md",
+    "08_traceability_matrix.csv",
+    "09_assumptions_dependencies.md",
+    "10_open_issues.md",
+    "11_sdlc_recommendation.md",
+    "12_validation_report.md",
+    "index.md",
+    "run.json"
+  ]
+}

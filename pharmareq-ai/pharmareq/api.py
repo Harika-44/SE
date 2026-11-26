@@ -1,9 +1,11 @@
 """REST API + web UI. Demo authentication: an API key in the X-API-Key header maps to a user and
 role (config/users.json). MFA, TLS and encryption at rest are NOT implemented in the prototype."""
 from pathlib import Path
+from io import BytesIO
+from zipfile import ZIP_DEFLATED, ZipFile
 
 from fastapi import Depends, FastAPI, Header, HTTPException
-from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse
+from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from pydantic import BaseModel
 
 from . import __version__, audit, config, store
@@ -125,12 +127,68 @@ def baseline(run_id: str, u: dict = Depends(user)):
     return _call(coordinator.baseline, run_id, u)
 
 
+_ARTIFACT_MEDIA_TYPES = {
+    ".md": "text/markdown",
+    ".csv": "text/csv",
+    ".json": "application/json",
+}
+
+
+def _artifact_files(run_id: str):
+    """Return validated generated files for a stored run, confined to its output folder."""
+    run = store.get_run(run_id)
+    if not run:
+        raise HTTPException(404, "run not found")
+
+    root = Path(config.OUTPUT_DIR).resolve()
+    run_dir = (root / run_id).resolve()
+    if run_dir.parent != root or not run_dir.is_dir():
+        raise HTTPException(404, "artifact directory not found")
+
+    files = []
+    for name in run.artifacts:
+        # Generated artifacts are flat files; accept only the documented formats.
+        if Path(name).name != name or Path(name).suffix.lower() not in _ARTIFACT_MEDIA_TYPES:
+            continue
+        path = (run_dir / name).resolve()
+        if path.parent == run_dir and path.is_file():
+            files.append((name, path))
+    return run_dir, files
+
+
+@app.get("/api/runs/{run_id}/artifacts/download-all")
+def download_all_artifacts(run_id: str, u: dict = Depends(user)):
+    """Download this run's generated Markdown, CSV, and JSON documents as a ZIP."""
+    _, files = _artifact_files(run_id)
+    if not files:
+        raise HTTPException(404, "no generated artifacts found")
+
+    archive = BytesIO()
+    with ZipFile(archive, mode="w", compression=ZIP_DEFLATED) as zf:
+        for name, path in files:
+            zf.write(path, arcname=name)
+    archive.seek(0)
+    return StreamingResponse(
+        archive,
+        media_type="application/zip",
+        headers={"Content-Disposition": f'attachment; filename="{run_id}_documents.zip"'},
+    )
+
+
 @app.get("/api/runs/{run_id}/artifacts/{name}")
 def artifact(run_id: str, name: str, u: dict = Depends(user)):
-    p = (Path(config.OUTPUT_DIR) / run_id / name).resolve()
-    if Path(config.OUTPUT_DIR).resolve() not in p.parents or not p.is_file():
+    _, files = _artifact_files(run_id)
+    artifact_map = dict(files)
+    # Restrict requests to the exact artifact list stored with the run and reject paths.
+    if Path(name).name != name or name not in artifact_map:
         raise HTTPException(404, "artifact not found")
-    return PlainTextResponse(p.read_text(encoding="utf-8"))
+    path = artifact_map[name]
+    return FileResponse(
+        path,
+        media_type=_ARTIFACT_MEDIA_TYPES[path.suffix.lower()],
+        filename=name,
+        content_disposition_type="attachment",
+    )
 
 
 @app.get("/api/runs/{run_id}/audit")
